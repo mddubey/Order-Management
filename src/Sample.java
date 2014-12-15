@@ -1,41 +1,30 @@
+import com.mritunjd.order_management.util.DBConnection;
+
 import java.io.Closeable;
 import java.sql.*;
 
-public class Sample{
-    private Connection connect = null;
+public class Sample {
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
 
     public void readDataBase() throws Exception {
-        try {
-            // this will load the MySQL driver, each DB has its own driver
-            Class.forName("com.mysql.jdbc.Driver");
-            // setup the connection with the DB.
-            connect = DriverManager
-                    .getConnection("jdbc:mysql://localhost/order_management?"
-                            + "user=jdbc&password=password");
+        Connection connection = new DBConnection().getConnection();
 
-            // statements allow to issue SQL queries to the database
-            statement = connect.createStatement();
-            // resultSet gets the result of the SQL query
-            resultSet = statement.executeQuery("select * from customers");
-            System.out.println(resultSet.getFetchSize());
+        statement = connection.createStatement();
+        // resultSet gets the result of the SQL query
+        resultSet = statement.executeQuery("select * from customers");
+        System.out.println(resultSet.getFetchSize());
 
-            resultSet = statement.executeQuery("select * from orders");
-            System.out.println(resultSet.getFetchSize());
+        resultSet = statement.executeQuery("select * from orders");
+        System.out.println(resultSet.getFetchSize());
 
-            resultSet = statement.executeQuery("select * from products");
-            System.out.println(resultSet.getFetchSize());
+        resultSet = statement.executeQuery("select * from products");
+        System.out.println(resultSet.getFetchSize());
 
-            resultSet = statement.executeQuery("select * from order_product");
-            System.out.println(resultSet.getFetchSize());
+        resultSet = statement.executeQuery("select * from order_product");
+        System.out.println(resultSet.getFetchSize());
 
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            //close();
-        }
 
     }
 

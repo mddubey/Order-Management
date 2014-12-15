@@ -1,0 +1,1 @@
+./gradlew clean build && java -jar build/libs/order_management-0.1.0.jar --server.port=8181
