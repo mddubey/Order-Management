@@ -12,3 +12,8 @@ bin/
 
 # Java class files
 *.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
