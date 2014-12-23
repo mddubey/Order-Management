@@ -1,4 +1,4 @@
-package com.mritunjd.order_management.util;
+package com.mritunjd.order_management.config;
 
 import com.mysql.jdbc.Driver;
 import org.springframework.beans.factory.annotation.Autowired;

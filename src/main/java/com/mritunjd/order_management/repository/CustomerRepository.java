@@ -36,10 +36,5 @@ public class CustomerRepository {
             }
         });
         return customers;
-//        System.out.println(customers.size());
-//        for (Customer customer : customers) {
-//            System.out.println(customer);
-//        }
-//        return Arrays.asList(new Customer(1, "", ""));
     }
 }
