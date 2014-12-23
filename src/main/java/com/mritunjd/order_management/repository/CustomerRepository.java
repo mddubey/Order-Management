@@ -1,18 +1,13 @@
 package com.mritunjd.order_management.repository;
 
 import com.mritunjd.order_management.model.Customer;
-import com.mritunjd.order_management.util.DBHandler;
-import com.mysql.jdbc.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Repository
