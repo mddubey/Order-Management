@@ -7,18 +7,21 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
 public class DatabaseConfig {
+
+    @Autowired
+    private Environment environment;
+
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource basicDataSource = new SimpleDriverDataSource();
-        basicDataSource.setUrl("jdbc:mysql://localhost:3306/order_management");
-        basicDataSource.setUsername("jdbc");
-        basicDataSource.setPassword("password");
+        basicDataSource.setUrl(environment.getProperty("DATABASE_URL"));
+        basicDataSource.setUsername(environment.getProperty("DATABASE_USER"));
+        basicDataSource.setPassword(environment.getProperty("DATABASE_PASSWORD"));
         basicDataSource.setDriverClass(Driver.class);
         return basicDataSource;
     }
