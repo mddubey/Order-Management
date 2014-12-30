@@ -37,7 +37,7 @@ public class CustomerRepositoryIntegrationTest {
 
     @Test
     public void shouldGiveACustomer() throws SQLException {
-        String setUpSql = "create table customers as SELECT * FROM CSVREAD('classpath:/csvs/customers.csv') ";
+        String setUpSql = "insert into customers SELECT * FROM CSVREAD('classpath:/csvs/customers.csv') ";
         jdbcTemplate.execute(setUpSql);
 
         List<Customer> customers = repository.getCustomerById("1");
@@ -45,5 +45,13 @@ public class CustomerRepositoryIntegrationTest {
         assertEquals(1,customers.size());
     }
 
+    @Test
+    public void shouldInsertACustomer() {
+//        String setUpSql = "create table customers as SELECT * FROM CSVREAD('classpath:/csvs/customers.csv') ";
+//        jdbcTemplate.execute(setUpSql);
+//
+//        String sql = "select * from customers";
+
+    }
 
 }

@@ -19,14 +19,14 @@ public class CustomerRepository {
     public List<Customer> getCustomerById(String customerID) throws SQLException {
         System.out.println("** Repository **");
         System.out.println(customerID);
-        String readQuery = "select cust_id,cust_name,address from customers where cust_id=?";
+        String readQuery = "select customer_id,customer_name,address from customers where customer_id=?";
         List<Customer> customers = jdbcTemplate.query(readQuery, new Object[]{customerID}, new RowMapper<Customer>() {
             @Override
             public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
                 System.out.println("** yha to aa rha h **");
-                int id = rs.getInt("cust_id");
-                String name = rs.getString("cust_name");
-                String address = rs.getString("address");
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                String address = rs.getString(3);
                 return new Customer(id, name, address);
             }
         });

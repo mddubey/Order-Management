@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+    <!--Add change tags here-->
+
+    <changeSet id="OM-1" context="setup" author="MD">
+        <createTable tableName="customers">
+            <column name="customer_id" type="BIGINT" autoIncrement="true" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="customer_name" type="varchar(30)"/>
+            <column name="address" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="OM-2" context="setup" author="MD">
+        <createTable tableName="products">
+            <column name="product_id" type="BIGINT" autoIncrement="true" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product_name" type="varchar(30)"/>
+            <column name="quantity" type="BIGINT"/>
+            <column name="price" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="OM-3" context="setup" author="MD">
+        <createTable tableName="orders">
+            <column name="order_id" type="BIGINT" autoIncrement="true" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="order_date" type="timestamp"/>
+            <column name="total" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet id="OM-4" author="MD" context="setup">
+        <comment>add foreign key constraints for orders table</comment>
+        <addForeignKeyConstraint baseColumnNames="customer_id"
+                                 baseTableName="orders"
+                                 constraintName="order_customer_id_fk"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="customer_id"
+                                 referencedTableName="customers"/>
+    </changeSet>
+
+    <changeSet id="OM-5" context="setup" author="MD">
+        <createTable tableName="order_product">
+            <column name="id" type="BIGINT" autoIncrement="true" >
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="order_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="order_date" type="timestamp"/>
+            <column name="quantity" type="BIGINT"/>
+            <column name="total" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="OM-6" author="MD" context="setup">
+        <comment>add foreign key constraints for order_product table</comment>
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_product"
+                                 constraintName="order_product_order_id_fk"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="order_id"
+                                 referencedTableName="orders"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_product"
+                                 constraintName="order_product_product_id_fk"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="product_id"
+                                 referencedTableName="products"/>
+    </changeSet>
+
+</databaseChangeLog>

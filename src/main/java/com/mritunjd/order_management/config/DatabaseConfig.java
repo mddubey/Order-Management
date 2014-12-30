@@ -1,5 +1,6 @@
 package com.mritunjd.order_management.config;
 
+import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +35,14 @@ public class DatabaseConfig {
     }
 
     @Bean
-    public DataSourceTransactionManager transactionManager() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        return new DataSourceTransactionManager(dataSource());
+    public SpringLiquibase liquibase() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+        String changelogFile = environment.getProperty("DATABASE_CHANGELOG_FILE");
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog(changelogFile);
+        liquibase.setIgnoreClasspathPrefix(false);
+        liquibase.setDataSource(dataSource());
+        liquibase.setDropFirst(false);
+        liquibase.setShouldRun(true);
+        return liquibase;
     }
 }
