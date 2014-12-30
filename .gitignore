@@ -17,3 +17,5 @@ bin/
 *.jar
 *.war
 *.ear
+
+om_test*
