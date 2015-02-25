@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -28,50 +29,12 @@ import java.text.ParseException;
 public class Application {
 
     @Bean
-    public SchedulerFactoryBean scheduler() {
-        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-
-        schedulerFactoryBean.setConfigLocation(new ClassPathResource("quartz.properties"));
-        schedulerFactoryBean.setJobFactory(jobFactory());
-
-
-        schedulerFactoryBean.setTriggers(getTrigger());
-        schedulerFactoryBean.setApplicationContextSchedulerContextKey("applicationContext");
-        schedulerFactoryBean.setWaitForJobsToCompleteOnShutdown(true);
-        try {
-            schedulerFactoryBean.afterPropertiesSet();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return schedulerFactoryBean;
+    public SchedulerFactoryBean schedulerFactoryBean() {
+        final SchedulerFactoryBean bean = new SchedulerFactoryBean();
+        bean.setApplicationContextSchedulerContextKey(ApplicationContext.class.getName());
+        return bean;
     }
 
-    @Bean
-    public JobFactory jobFactory() {
-        SpringBeanJobFactory springBeanJobFactory = new SpringBeanJobFactory();
-        return springBeanJobFactory;
-    }
-
-    private CronTrigger getTrigger() {
-        CronTriggerFactoryBean triggerFactoryBean = new CronTriggerFactoryBean();
-        triggerFactoryBean.setName("my.scheduled.job.trigger");
-        triggerFactoryBean.setCronExpression("0/30 * * * * ?");
-        triggerFactoryBean.setJobDetail(myScheduledJob());
-        try {
-            triggerFactoryBean.afterPropertiesSet();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return triggerFactoryBean.getObject();
-    }
-
-    private JobDetail myScheduledJob() {
-        JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean();
-        jobDetailFactoryBean.setJobClass(MyScheduledJob.class);
-        jobDetailFactoryBean.setName("my.scheduled.job");
-        jobDetailFactoryBean.afterPropertiesSet();
-        return jobDetailFactoryBean.getObject();
-    }
 
     @Bean
     public EmbeddedServletContainerFactory getFactory() {
